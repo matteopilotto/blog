@@ -4,9 +4,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Title | Matteo’s Blog</title>
+<title>How to fine-tune a transformer model with Hugging Face 🤗 | Matteo’s Blog</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="Title" />
+<meta property="og:title" content="How to fine-tune a transformer model with Hugging Face 🤗" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
 <meta property="og:description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
@@ -16,9 +16,9 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-04-24T00:00:00-05:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Title" />
+<meta property="twitter:title" content="How to fine-tune a transformer model with Hugging Face 🤗" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-04-24T00:00:00-05:00","datePublished":"2022-04-24T00:00:00-05:00","description":"An easy to use blogging platform with support for Jupyter Notebooks.","headline":"Title","mainEntityOfPage":{"@type":"WebPage","@id":"https://matteopilotto.github.io/blog/2022/04/24/hg_transformer_finetune_part1.html"},"url":"https://matteopilotto.github.io/blog/2022/04/24/hg_transformer_finetune_part1.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-04-24T00:00:00-05:00","datePublished":"2022-04-24T00:00:00-05:00","description":"An easy to use blogging platform with support for Jupyter Notebooks.","headline":"How to fine-tune a transformer model with Hugging Face 🤗","mainEntityOfPage":{"@type":"WebPage","@id":"https://matteopilotto.github.io/blog/2022/04/24/hg_transformer_finetune_part1.html"},"url":"https://matteopilotto.github.io/blog/2022/04/24/hg_transformer_finetune_part1.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://matteopilotto.github.io/blog/feed.xml" title="Matteo's Blog" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -73,7 +73,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Title</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-04-24T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">How to fine-tune a transformer model with Hugging Face 🤗</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-04-24T00:00:00-05:00" itemprop="datePublished">
         Apr 24, 2022
       </time>
        • <span class="read-time" title="Estimated read time">
@@ -128,7 +128,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a name="start"></a></p>
-<h1 id="How-to-fine-tune-a-transformer-model-with-Hugging-Face-&#129303;">How to fine-tune a transformer model with Hugging Face &#129303;<a class="anchor-link" href="#How-to-fine-tune-a-transformer-model-with-Hugging-Face-&#129303;"> </a></h1><h2 id="Part-1---Data-pre-processing-and-fine-tuning">Part 1 - Data pre-processing and fine-tuning<a class="anchor-link" href="#Part-1---Data-pre-processing-and-fine-tuning"> </a></h2><h3 id="&#128278;-Table-of-contents">&#128278; Table of contents<a class="anchor-link" href="#&#128278;-Table-of-contents"> </a></h3><ol>
+<h2 id="Part-1---Data-pre-processing-and-fine-tuning">Part 1 - Data pre-processing and fine-tuning<a class="anchor-link" href="#Part-1---Data-pre-processing-and-fine-tuning"> </a></h2><h3 id="&#128278;-Table-of-contents">&#128278; Table of contents<a class="anchor-link" href="#&#128278;-Table-of-contents"> </a></h3><ol>
 <li>In <a href="#overview">A quick review of natural language processing</a> we will introduce transformer-based models and how they can help to deal with natural language tasks.
 <br /><br /></li>
 <li>In <a href="#data">Loading the data</a> we will learn how to load a dataset from the Hugging Face Hub.
