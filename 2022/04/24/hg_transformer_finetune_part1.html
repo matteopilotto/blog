@@ -214,9 +214,12 @@ window.onload = wrap_img;
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="&#11088;-Three-families-of-transformers-&#11088;">&#11088; Three families of transformers &#11088;<a class="anchor-link" href="#&#11088;-Three-families-of-transformers-&#11088;"> </a></h3><p>One interesting aspect of transformer models is their modular architecture: a transformer does not always require an encoder and a decoder to work properly. For this reason, they can be grouped in three main families based on the components they incorporate:</p>
 <ul>
-<li><strong>GPT-like</strong> or <strong>auto-regressive</strong> models. These models use only the decoder part and they are well suited for generation tasks such as text and image generation.</li>
-<li><strong>BERT-like</strong> or <strong>auto-encoding</strong> models. These models leverage only the encoder part and they work well for natural language understanding tasks such as text-classification, named entity recognition (i.e. word classification) and extractive question answering.</li>
-<li><strong>BART/T5-like</strong> or <strong>sequence-to-sequence</strong> models. These models make use of both the encoder and the decoder. They are designed to perform generative task subject to a certain input such as translation and summarization.</li>
+<li><p><strong>GPT-like</strong> or <strong>auto-regressive</strong> models. These models use only the decoder part and they are well suited for generation tasks such as text and image generation.</p>
+</li>
+<li><p><strong>BERT-like</strong> or <strong>auto-encoding</strong> models. These models leverage only the encoder part and they work well for natural language understanding tasks such as text-classification, named entity recognition (i.e. word classification) and extractive question answering.</p>
+</li>
+<li><p><strong>BART/T5-like</strong> or <strong>sequence-to-sequence</strong> models. These models make use of both the encoder and the decoder. They are designed to perform generative task subject to a certain input such as translation and summarization.</p>
+</li>
 </ul>
 <p>Now that we have a basic understanding of transformers models and their components, let’s see how we can leverage one of these pre-trained models to perform sentiment analysis. Along the way, we will explore new concepts and we will dig deeper into some of the ideas we came across in this section.</p>
 
@@ -294,8 +297,10 @@ window.onload = wrap_img;
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now that we're sure we have access to a GPU, we can install the Hugging Face libraries:</p>
 <ul>
-<li><code>datasets</code> gives us direct access to the datasets available on Hugging Face.</li>
-<li><code>transformers[sentencepiece]</code> contains the model architectures and the pre-trained parameters.</li>
+<li><p><code>datasets</code> gives us direct access to the datasets available on Hugging Face.</p>
+</li>
+<li><p><code>transformers[sentencepiece]</code> contains the model architectures and the pre-trained parameters.</p>
+</li>
 </ul>
 
 </div>
