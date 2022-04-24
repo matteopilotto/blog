@@ -129,7 +129,7 @@ window.onload = wrap_img;
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a name="start"></a></p>
 <h2 id="Part-1---Data-pre-processing-and-fine-tuning">Part 1 - Data pre-processing and fine-tuning<a class="anchor-link" href="#Part-1---Data-pre-processing-and-fine-tuning"> </a></h2><h3 id="&#128278;-Table-of-contents">&#128278; Table of contents<a class="anchor-link" href="#&#128278;-Table-of-contents"> </a></h3><ol>
-<li>In <a href="#overview">A quick review of natural language processing</a> we will introduce transformer-based models and how they can help to deal with natural language tasks.
+<li>In <a href="#overview">A quick review of natural language processing</a> we will introduce transformer-based models and how they can help us to deal with natural language tasks.
 <br /><br /></li>
 <li>In <a href="#data">Loading the data</a> we will learn how to load a dataset from the Hugging Face Hub.
 <br /><br /></li>
@@ -137,13 +137,13 @@ window.onload = wrap_img;
 <br /><br /></li>
 <li>In <a href="#preprocessing">Pre-processing phase</a> we will learn how to prepare a dataset for training a language model.
 <br /><br /></li>
-<li>In <a href="#training">Training phase</a> we will discover the necessary steps to fine tune a transformer model to perform a down-stream task.
+<li>In <a href="#training">Training phase</a> we will discover the necessary steps to finetune a transformer model to perform a down-stream task.
 <br /><br /></li>
-<li>In <a href="#evaluation">Post-processing/Evaluation phase</a> we will see how to evaluate a transformed-based model.
+<li>In <a href="#evaluation">Post-processing/Evaluation phase</a> we will see how to evaluate a transformer-based model.
 <br /><br /></li>
-<li>In <a href="#improve">Improving the pipeline</a> we will explore different ways to improve the training loop.
+<li>In <a href="#improve">Improving the pipeline</a> we will explore different ways to enhance the training loop.
 <br /><br /></li>
-<li>In <a href="#resources">Additional resources</a> contains plenty of additional materials to delve into transformers.</li>
+<li><a href="#resources">Additional resources</a> contains extra materials to delve into transformers.</li>
 </ol>
 
 </div>
@@ -154,7 +154,7 @@ window.onload = wrap_img;
 <p><a name="overview"></a></p>
 <h2 id="&#10024;-A-quick-review-of-natural-language-processing-(NLP)-&#10024;">&#10024; A quick review of natural language processing (NLP) &#10024;<a class="anchor-link" href="#&#10024;-A-quick-review-of-natural-language-processing-(NLP)-&#10024;"> </a></h2><blockquote><p><a href="#start">Table of contents</a></p>
 </blockquote>
-<p>Natural language processing (NLP) is the branch of AI that studies how computers can process human language in the form text or voice and make sense of those words.</p>
+<p>Natural language processing (NLP) is the branch of AI that studies how computers can process human language in the form of text or voice and make sense of those words.</p>
 <p>NLP techniques can be used to solve a large variety of tasks such as:- sentiment analysis- machine translation</p>
 <ul>
 <li>natural language generation</li>
@@ -388,7 +388,7 @@ datascience 0.10.6 requires folium==0.2.1, but you have folium 0.8.3 which is in
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>As we mentioned a moment ago, we want a model to classify sentences based on the expressed emotion. Thankfully we don't have to spend time to collect and create our own data because on Hugging Face we can easily access the <a href="https://huggingface.co/datasets/emotion">emotion dataset</a>. From the documentation on the Hugging Face website, we can get some basic information regarding the dataset. It contains English tweets labeled based on six emotions: joy, love, surprise, sadness, anger and fear.</p>
+<p>In this example we won't simply classify tweets as positive or negative, but we will go a step forward, trying to classify them based on the underlying emotion. Thankfully we don't have to spend time to collect and create our own data because on Hugging Face we can easily access the <a href="https://huggingface.co/datasets/emotion">emotion dataset</a>. From the documentation on the Hugging Face website, we can get some basic information regarding the dataset. It contains English tweets labeled based on six emotions: joy, love, surprise, sadness, anger and fear.</p>
 <p>The data is also conveniently divided in a train, validation and test set.</p>
 <p>Loading the data in our environment is easy. We just need to import the <code>load_dataset</code> function from the <code>datasets</code> library and pass the name of the data we want as the first parameter.</p>
 
@@ -571,7 +571,7 @@ By examining the train split we can see that <code>label</code> contains our tar
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To figure out which target ID corresponds to which emotion we can access the <code>features</code> to take a look at the datatypes.
+<p>To figure out which target ID corresponds to which emotion we can access the <code>features</code> attribute to take a look at the datatypes.
 Our target variable is a <code>ClassLabel</code> object and its <code>names</code> attribute contains the names of the emotions in the correct order.</p>
 
 </div>
@@ -707,9 +707,9 @@ Instead, we will use the number of labels in a few moments to properly define th
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Here, we are just scratching the surface. Hugging Face <code>DatasetDict</code> and <code>Dataset</code> are extremely powerful objects that offer many other functionalities.</p>
+<p>Here we are just scratching the surface. Hugging Face <code>DatasetDict</code> and <code>Dataset</code> are extremely powerful classes that offer many other functionalities.</p>
 <p>They are also well suited to perform exploratory data analysis (EDA). For the sake of simplicity, we won't perform any EDA, but when working on a real project, it is a step that we should definitely go through. To learn more about the <a href="https://huggingface.co/docs/datasets/master/en/package_reference/main_classes#datasetdict[[datasets.datasetdict]]">DatasetDict</a> and <a href="https://huggingface.co/docs/datasets/master/en/package_reference/main_classes#datasets.Dataset">Dataset</a> check out the official documentation.</p>
-<p>Also keep in mind that there is no standard way to explore datasets. Each dataset has its own peculiarities and this affects how we interact and what we can do with them. That's why we encourage you, once you have gone through this notebook, to dedicate some time to explore other datasets. <a href="https://huggingface.co/datasets">Here</a> you can find all the datasets currently available on Hugging Face. The different filters on the left-hand side makes the searching process straightforward.</p>
+<p>Also keep in mind that there is no standard way to explore datasets. Each dataset has its own peculiarities and this affects how we interact and what we can do with them. That's why I encourage you, once you have gone through this notebook, to dedicate some time to explore other datasets. <a href="https://huggingface.co/datasets">Here</a> you can find all the datasets currently available on Hugging Face. The different filters on the left-hand side makes the searching process straightforward.</p>
 
 </div>
 </div>
@@ -719,10 +719,21 @@ Instead, we will use the number of labels in a few moments to properly define th
 <p><a name="ml_pipeline"></a></p>
 <h3 id="&#11088;-Taking-a-bird&#8217;s-eye-&#129413;-view-of-the-ML-pipeline-for-NLP-&#11088;">&#11088; Taking a bird&#8217;s-eye &#129413; view of the ML pipeline for NLP &#11088;<a class="anchor-link" href="#&#11088;-Taking-a-bird&#8217;s-eye-&#129413;-view-of-the-ML-pipeline-for-NLP-&#11088;"> </a></h3><blockquote><p><a href="#start">Table of contents</a></p>
 </blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Now that we have the data, we are ready to move to the actual ML pipeline for NLP tasks.
-Again, there is no silver bullet, but usually it consists of three steps:1. pre-processing phase: unfortunately we cannot feed raw text directly to transformer models. This is the reason why the first step is converting raw text into numbers. We will do that by using a tokenizer.2. training phase: this is where we feed the pre-processed data to the model in order to update the parameters. We will use a pre-trained BERT to build our sentence-classification model.</p>
+Again, there is no silver bullet, but usually it consists of three steps:</p>
 <ol>
-<li>post-processing/evaluation phase: in this step we take the model outputs and convert them into a format we can interpret. For our task, we will convert the transformer outputs into probabilities.</li>
+<li><p>pre-processing phase: unfortunately we cannot feed raw text directly to transformer models. This is the reason why the first step is converting raw text into numbers. We will do that by using a tokenizer.</p>
+</li>
+<li><p>training phase: this is where we feed the pre-processed data to the model in order to update the parameters. We will use a pre-trained BERT to build our sentence-classification model.</p>
+</li>
+<li><p>post-processing/evaluation phase: in this step we take the model outputs and convert them into a format we can interpret. For our task, we will convert the transformer outputs into probabilities.</p>
+</li>
 </ol>
 
 </div>
@@ -733,12 +744,23 @@ Again, there is no silver bullet, but usually it consists of three steps:1. pre-
 <p><a name="preprocessing"></a></p>
 <h3 id="&#11088;-Pre-processing-phase-&#11088;">&#11088; Pre-processing phase &#11088;<a class="anchor-link" href="#&#11088;-Pre-processing-phase-&#11088;"> </a></h3><blockquote><p><a href="#start">Table of contents</a></p>
 </blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Tokenizers</strong> are the perfect tools to pre-process raw text.
 They take a list of sentences as input and return a list of integers plus any other optional output. <strong>Tokens</strong> are the atomic components of a sentence and depending on the tokenization strategy used they can be words, sub-words or even single characters. A <strong>vocabulary</strong> (or vocab) is a dictionary mapping tokens to integers and vice versa.
 The integers in the output list are often called <strong>token IDs</strong>.</p>
-<p>In general the tokenization process involves three steps:1. the tokenizer receives the input text and breaks it down into tokens.2. it assigns each token to an integer.</p>
+<p>In general the tokenization process involves three steps:</p>
 <ol>
-<li>depending on the transformer model considered, the tokenizer adds special tokens to the vocab.</li>
+<li><p>the tokenizer receives the input text and breaks it down into tokens.</p>
+</li>
+<li><p>it assigns each token to an integer.</p>
+</li>
+<li><p>depending on the transformer model considered, the tokenizer adds special tokens to the vocab.</p>
+</li>
 </ol>
 <p>‼️ Different transformer models require different special tokens. That's why it's paramount to always make sure that the transformer and the tokenizer use the same vocabulary. ‼️</p>
 
@@ -749,11 +771,13 @@ The integers in the output list are often called <strong>token IDs</strong>.</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In practice, the first thing we need to do is to load a tokenizer from the Hugging Face library. <code>AutoTokenizer</code> is the generic tokenizer class and it can be instantiated based on a pre-trained model vocabulary using the <code>from_pretrained</code> method and passing the name of the model as argument.
 As we have just mentioned, we will use a pre-trained BERT model called <code>bert-base-uncased</code> because generally  BERT-like models perform very well in sentence-classification tasks.</p>
-<p>In most cases, the Hugging Face page provides useful information regarding the pre-trained models. <a href="https://huggingface.co/bert-base-uncased">Here</a> we can find the page for our BERT model, while <a href="https://huggingface.co/models">here</a> we can find the full list of pre-trained models available. In the long run, it always pays off to dedicate some time reading the model description in order to familiarize with them.</p>
+<p>In most cases, the Hugging Face website provides useful information regarding the pre-trained models. <a href="https://huggingface.co/bert-base-uncased">Here</a> we can find the page for our BERT model, while <a href="https://huggingface.co/models">here</a> we can find the full list of pre-trained models available. In the long run, it always pays off to dedicate some time reading the model description in order to familiarize with them.</p>
 <p>After defining our <code>AutoTokenizer</code> object, we can call it to get additional information:</p>
 <ul>
-<li><code>vocab_size</code> represents the number of tokens a tokenizer can distinguish. Ours can recognize 30,522 unique tokens.</li>
-<li><code>model_max_len</code> is an argument related to our transformer model and tells us the maximum length of the input sequences we can feed to the model. The BERT model we will use can accept inputs up to 512 tokens long.</li>
+<li><p><code>vocab_size</code> represents the number of tokens a tokenizer can distinguish. Ours can recognize 30,522 unique tokens.</p>
+</li>
+<li><p><code>model_max_len</code> is an argument related to our transformer model and tells us the maximum length of the input sequences we can feed to the model. The BERT model we will use can accept inputs up to 512 tokens long.</p>
+</li>
 <li><p><code>padding_side</code> and <code>truncation_side</code> are two important concepts that define how the tokenizer will  handle inputs of different length when they are processed in batches:</p>
 <ul>
 <li><strong>Padding</strong> is the process of adding special tokens, called padding tokens, to sequences with fewer tokens.</li>
@@ -761,7 +785,8 @@ As we have just mentioned, we will use a pre-trained BERT model called <code>ber
 </ul>
 <p>To learn more about these two concepts check out the <a href="https://huggingface.co/docs/transformers/master/en/preprocessing#pad">documentation</a>.</p>
 </li>
-<li><code>special_tokens</code>, <code>sep_token</code>, <code>pad_token</code>, <code>cls_token</code> and <code>mask_token</code> describe all the extra tokens automatically added by the tokenizer when processing a sentence. These tokens guide the model to properly processing the input data.</li>
+<li><p><code>special_tokens</code>, <code>sep_token</code>, <code>pad_token</code>, <code>cls_token</code> and <code>mask_token</code> describe all the extra tokens automatically added by the tokenizer when processing a sentence. These tokens guide the model to properly processing the input data.</p>
+</li>
 </ul>
 
 </div>
@@ -810,11 +835,14 @@ As we have just mentioned, we will use a pre-trained BERT model called <code>ber
 To do that we just need to pass a list of sentences to the tokenizer and it will automatically perform the three steps we mentioned earlier.
 What we get as output is a dictionary containing three key-value pairs:</p>
 <ul>
-<li><code>input_ids</code> contains the token IDs. In practice, they are the main input data of the transformer model.</li>
+<li><p><code>input_ids</code> contains the token IDs. In practice, they are the main input data of the transformer model.</p>
+</li>
 <li><p><code>attention_mask</code> defines which other parts of the input sentence the attention layers of the transformer model can attend to when processing a certain position. It's a list of booleans where 1 means the attention layers can pay attention to that token. There are two common situations where we want the attention layers to ignore certain token IDs:</p>
 <ol>
-<li>We are performing a generative task, such as text generation, and we don't want our model to peek at the tokens it hasn't generated yet. It would be like cheating!</li>
-<li>We are padding the input text and, since padding tokens don’t have any semantic meaning, we don’t want our model to make predictions based on those tokens.</li>
+<li><p>We are performing a generative task, such as text generation, and we don't want our model to peek at the tokens it hasn't generated yet. It would be like cheating!</p>
+</li>
+<li><p>We are padding the input text and, since padding tokens don’t have any semantic meaning, we don’t want our model to make predictions based on those tokens.</p>
+</li>
 </ol>
 <p>In our case we get only 1s because we are not trying to generate text and, at least for now, we haven't padded our sentences.</p>
 </li>
@@ -898,8 +926,10 @@ What we get as output is a dictionary containing three key-value pairs:</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Using the <code>convert_ids_to_tokens</code> method we can convert a list of IDs back to tokens. This gives us a chance to get a better understanding of how the tokenizer works. The output list provides two interesting insights:</p>
 <ol>
-<li>our tokenizer uses a sub-word tokenization strategy because we can see that the word 'didnt' has been split into 'didn' and '##t'.</li>
-<li>it automatically takes care of special tokens. The <a href="https://huggingface.co/bert-base-uncased#preprocessing">pre-processing description</a> informs us that the special token <code>[CLS]</code> represents the beginning of a sentence , whereas the <code>[SEP]</code> token is used to separate two paired sentences or signal the end of the input sentence.</li>
+<li><p>our tokenizer uses a sub-word tokenization strategy because we can see that the word <code>didnt</code> has been split into <code>didn</code> and <code>##t</code>.</p>
+</li>
+<li><p>it automatically takes care of special tokens. The <a href="https://huggingface.co/bert-base-uncased#preprocessing">pre-processing description</a> informs us that the special token <code>[CLS]</code> represents the beginning of a sentence , whereas the <code>[SEP]</code> token is used to separate two paired sentences or signal the end of the input sentence.</p>
+</li>
 </ol>
 
 </div>
@@ -990,11 +1020,16 @@ To learn more about the different strategies available check the <a href="https:
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now that we have familiarized ourselves with the tokenizer, we are ready to apply it to our three datasets. The most intuitive way is to pass the text data of each split to the tokenizer. More specifically, this approach can be broken down into 5 steps:</p>
 <ol>
-<li>we create an empty <code>DatasetDict</code> object to collect both the raw and tokenized data</li>
-<li>we pass the sentences of each split to the tokenizer. As we have just mentioned, we set <code>truncation=True</code> and <code>padding=True</code> to make sure the tokenized sequences have the same length.</li>
-<li>we convert the output dictionary into a <code>Dataset</code> object.</li>
-<li>we use the <code>concatenate_datasets</code> function from the <code>datasets</code> library to concatenate the raw and tokenized data together. This step is totally optional. There might be cases where we don't need to retain the original data.</li>
-<li>we repeat step 2, 3 and 4 for all the remaining splits in our <code>DatasetDict</code>.</li>
+<li><p>we create an empty <code>DatasetDict</code> object to collect both the raw and tokenized data.</p>
+</li>
+<li><p>we pass the sentences of each split to the tokenizer. As we have just mentioned, we set <code>truncation=True</code> and <code>padding=True</code> to make sure the tokenized sequences have the same length.</p>
+</li>
+<li><p>we convert the output dictionary into a <code>Dataset</code> object.</p>
+</li>
+<li><p>we use the <code>concatenate_datasets</code> function from the <code>datasets</code> library to concatenate the raw and tokenized data together. This step is totally optional. There might be cases where we don't need to retain the original data.</p>
+</li>
+<li><p>we repeat step 2, 3 and 4 for all the remaining splits in our <code>DatasetDict</code>.</p>
+</li>
 </ol>
 <p>The final output of this process is a <code>DatasetDict</code> object containing for each split the raw and tokenized data.</p>
 
@@ -1124,7 +1159,7 @@ To learn more about the different strategies available check the <a href="https:
 <p>The process just described is intuitive and it works perfectly fine in most situations. However, it doesn't scale well with very large datasets. That's why we will explore an alternative approach which at the beginning might feel more convoluted, but in the long run will provide more flexibility  and capabilities.
 This second approach revolves around two key concepts: mapping and dynamic padding</p>
 <p>The <code>DatasetDict</code> class has a <code>map</code> method that enables us to apply a function to each dataset in the object. This function takes a dictionary as input and returns a dictionary as output.
-In our specific case, the function will apply the tokenizer to our three datasets. The <code>map</code> method is designed in a way to automatically add the key-value pairs of the output dictionary created by the tokenizer to the pre-existing dictionary. That's why we no longer need to concatenate the data. To get more details about the map method check the <a href="https://huggingface.co/docs/datasets/v2.0.0/en/package_reference/main_classes#datasets.DatasetDict.map">documentation</a>.</p>
+In our specific case, the function will apply the tokenizer to our three datasets. The <code>map</code> method is designed to automatically add the key-value pairs of the output dictionary created by the tokenizer to the pre-existing dictionary. That's why we no longer need to concatenate the data. To get more details about the map method check the <a href="https://huggingface.co/docs/datasets/v2.0.0/en/package_reference/main_classes#datasets.DatasetDict.map">documentation</a>.</p>
 <p>‼️ Keep in mind that if a key already exists, the new values will replace the existing ones. ‼️</p>
 <p>Dynamic padding is a separate step after the tokenization and in order to work properly it requires non padded data. That's why in the tokenization step we only apply truncation.</p>
 <p>In addition, we set <code>batched=True</code> to provide a batch of data to the function to speed up the process.</p>
