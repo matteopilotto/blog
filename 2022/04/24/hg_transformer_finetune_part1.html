@@ -835,7 +835,7 @@ As we have just mentioned, we will use a pre-trained BERT model called <code>ber
 To do that we just need to pass a list of sentences to the tokenizer and it will automatically perform the three steps we mentioned earlier.
 What we get as output is a dictionary containing three key-value pairs:</p>
 <ul>
-<li><p><code>input_ids</code> contains the token IDs. In practice, they are the main input data of the transformer model.</p>
+<li><p><code>input_ids</code> contains the token IDs. They are the main input data of the transformer model.</p>
 </li>
 <li><p><code>attention_mask</code> defines which other parts of the input sentence the attention layers of the transformer model can attend to when processing a certain position. It's a list of booleans where 1 means the attention layers can pay attention to that token. There are two common situations where we want the attention layers to ignore certain token IDs:</p>
 <ol>
@@ -846,7 +846,8 @@ What we get as output is a dictionary containing three key-value pairs:</p>
 </ol>
 <p>In our case we get only 1s because we are not trying to generate text and, at least for now, we haven't padded our sentences.</p>
 </li>
-<li>Our BERT model can potentially digest a pair of sentences. We can find this information in the <a href="https://huggingface.co/bert-base-uncased#model-description">model description</a>. <code>token_type_ids</code> tells to the model if a certain token belongs to the first or second sentence. 0 indicates the first sentence and 1 the second one. Since in our example we are not dealing with pairs, we just get lists of 0s.</li>
+<li>Our BERT model can potentially digest a pair of sentences. We can find this information in the <a href="https://huggingface.co/bert-base-uncased#model-description">model description</a>.
+<code>token_type_ids</code> tells the model if a certain token belongs to the first or second sentence. 0 indicates the first sentence and 1 the second one. Since in our example we are not dealing with pairs, we just get lists of 0s.</li>
 </ul>
 
 </div>
@@ -1222,7 +1223,7 @@ In our specific case, the function will apply the tokenizer to our three dataset
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>By default when we set <code>padding=True</code> the tokenizer pads all sentences to match the longest sentence in the entire dataset. Conversely, with dynamic padding we pad our data dynamically when forming the batches based on the longest sequence in each batch. As a result, the padded sequences in a specific batch have the same length, but they are likely to have a different one when compared to padded sequences in another batch.
+<p>By default when we set <code>padding=True</code> the tokenizer pads all sentences to match the longest sentence in the entire dataset. Conversely, with dynamic padding we pad our data dynamically when forming the batches based on the longest sequence in each batch. As a result, the padded sequences in a specific batch have the same length, but most likely they end up having a different one when compared to padded sequences in another batch.
 In most cases dynamic padding speeds up training compared to normal padding because we avoid passing to the model over-long sequences containing uninfortmative pad tokens.</p>
 <p>To apply dynamic padding we just need to import the class <code>DataCollatorWithPadding</code> from the <code>transformers</code> library and pass our tokenzier as argument. During training, the data collator will be responsible to create batches and dynamically pad the input sequences accordingly.</p>
 <p>Let's see how it works on a sample.</p>
@@ -1381,13 +1382,17 @@ In most cases dynamic padding speeds up training compared to normal padding beca
 <p><a name="training"></a></p>
 <h3 id="&#11088;-Training-phase-&#11088;">&#11088; Training phase &#11088;<a class="anchor-link" href="#&#11088;-Training-phase-&#11088;"> </a></h3><blockquote><p><a href="#start">Table of contents</a></p>
 </blockquote>
-<p>The training phase with the Hugging Face library can be deconstructed into four steps:1. define the model2. specify the training arguments</p>
+<p>The training phase with the Hugging Face library can be deconstructed into four steps:1. define the model.</p>
 <ol>
-<li>define the training loop</li>
-<li>Fine-tune (or train for scratch)  the model</li>
+<li><p>specify the training arguments.</p>
+</li>
+<li><p>define the training loop.</p>
+</li>
+<li><p>Fine-tune (or train for scratch) the model.</p>
+</li>
 </ol>
 <p>Since our objective is to classify sentences based on their semantic meaning we need to import the <code>AutoModelForSequenceClassification</code> from the <code>transformers</code> library specifying the checkpoint and the number of output classes. The BERT checkpoint we’re trying to use was pre-trained to perform a fill-mask and a next-sentence-prediction task. When we import <code>AutoModelForSequenceClassification</code> we are telling the library we want to perform sequence-classification and, as a consequence, it automatically replaces the original model <strong>head</strong> with a new one specifically designed for our down-stream task. The term head refers to the last layer (or the last few layers) in the model architecture and is responsible to project the transformer outputs onto the proper vector space. In other words, we can adapt a pre-trained transformer model to perform any task by simply changing its head and leaving all the rest (i.e. the <strong>backbone</strong>) as it is.
-However, when we change head its parameters are initialized with random vaues. That’s why we get a warning suggesting us to train the model to be able to use it for predictions and inference.
+However, when we change head its parameters are initialized with random values. That’s why we get a warning suggesting us to train the model to be able to use it for predictions and inference.
 For this specific BERT model we can actually take a look at the new head using the <code>classifier</code> attribute. As we can see, it's just a linear layer mapping the 768-dimensional vectors generated by the last hidden layer to a 6-dimensional vector space.</p>
 <p>The <code>transformers</code> library provides classes to perform all sorts of down-stream tasks. You can find them in the <a href="https://huggingface.co/docs/transformers/main/en/model_doc/auto#transformers.AutoModel">documentation</a>.</p>
 
@@ -1466,11 +1471,14 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The next step is to define the training arguments. We can do this by importing the <code>TrainingArguments</code> from the <code>transformers</code> library. The only required parameter is the <code>output_dir</code> which specifies the output directory for the model predictions and checkpoints. In our case we provide three optional parameters:</p>
+<p>The next step is to define the training arguments. We can do this by importing the <code>TrainingArguments</code> from the <code>transformers</code> library. The only required parameter is the <code>output_dir</code> which specifies the output directory for the model predictions and checkpoints. In our case we also provide three optional parameters:</p>
 <ul>
-<li><code>num_train_epochs</code> defines the number of training epochs</li>
-<li><code>evaluation_strategy</code> tells the training script to evaluate the model at the end of each epoch</li>
-<li><code>fp16</code> gives us the option to use 16-bit (mixed) precision instead of 32-bit to speed up training.</li>
+<li><p><code>num_train_epochs</code> defines the number of training epochs.</p>
+</li>
+<li><p><code>evaluation_strategy</code> tells the training script to evaluate the model at the end of each epoch.</p>
+</li>
+<li><p><code>fp16</code> gives us the option to use 16-bit (mixed) precision instead of 32-bit to speed up training.</p>
+</li>
 </ul>
 <p>Check out the <a href="https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments">documentation</a> to take a look at the full list of optional parameters.</p>
 
@@ -1505,9 +1513,12 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Actually before we can move to the third step, there is one last bit of pre-processing we need to do:</p>
 <ul>
-<li>remove all the unnecessary columns in <code>features</code>. In our case the only column we need to remove is <code>text</code>.</li>
-<li>rename the column containing the ground truth classes <code>labels</code> because the training script by default will look for that column to compute the loss. This aspect is mentioned in the <a href="https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments.label_names">documentation</a>.</li>
-<li>set the format for every dataset. We set the  <code>torch</code> format because we are using Pytorch.</li>
+<li><p>remove all the unnecessary columns in <code>features</code>. In our case the only column we need to remove is <code>text</code>.</p>
+</li>
+<li><p>rename the column containing the ground truth classes <code>labels</code> because the training script by default will look for that column to compute the loss. This aspect is mentioned in the <a href="https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments.label_names">documentation</a>.</p>
+</li>
+<li><p>set the format for every dataset. We set the  <code>torch</code> format because we are using Pytorch.</p>
+</li>
 </ul>
 
 </div>
@@ -1566,11 +1577,16 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To define our training loop we simply need to import the <code>Trainer</code> class from the <code>transformers</code> library. This class contains a basic training loop which supports all the items we have generated so far:</p>
 <ul>
-<li>pre-trained model</li>
-<li>training arguments</li>
-<li>pre-processed data</li>
-<li>data collator</li>
-<li>tokenizer</li>
+<li><p>pre-trained model</p>
+</li>
+<li><p>training arguments</p>
+</li>
+<li><p>pre-processed data</p>
+</li>
+<li><p>data collator</p>
+</li>
+<li><p>tokenizer</p>
+</li>
 </ul>
 <p>As always we can learn more about this class by checking out the official <a href="https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.Trainer">documentation</a>.</p>
 
@@ -1619,7 +1635,7 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now that all the pieces are in place, we can finally fine-tune our transformer model by calling the <code>train</code> method. By default the training loop reports back only the training and the validation loss. Unfortunately, from a human perspective those values are not very informative. Instead, we would like to see metrics like accuracy, precision and recall. We will  see how we can add those metrics to the training loop in just a moment, but first let's briefly jump to the evaluation phase where we can see how to evaluate our model and make predictions.</p>
+<p>Now that all the pieces are in place, we can finally finetune our transformer model by calling the <code>train</code> method. By default the training loop reports back only the training and the validation loss. Unfortunately, from a human perspective those values are not very informative. Instead, we would like to see metrics like accuracy, precision and recall. We will  see how we can add those metrics to the training loop in just a moment, but first let's briefly jump to the evaluation phase where we can see how to evaluate our model and make predictions.</p>
 
 </div>
 </div>
@@ -1815,9 +1831,12 @@ Training completed. Do not forget to share your model on huggingface.co/models =
 <p>Generating the predictions is slightly more convolutated because we need to apply a bit of post-processing.</p>
 <p>In fact, after calling the <code>predict</code> method we get a <code>PredictionOutput</code> object containing three items:</p>
 <ul>
-<li><code>predictions</code> consists of a matrix with a row for each input sequence and a column for each label. In our case, we have 2000 rows and 6 columns, therefore we get a 2000 x 6 matrix. Each row vector contains <strong>logits</strong> which represent the unnormalized output scores of the transformer model. We can interpret these scores as probabilities by passing them through a <strong>softmax function</strong>. The actual prediction is the class corresponding to the index with the largest logit (or probability).</li>
-<li><code>label_ids</code> contains the ground truth labels</li>
-<li><code>metrics</code> contains the metrics. For the moment we have only the loss.</li>
+<li><p><code>predictions</code> consists of a matrix with a row for each input sequence and a column for each label. In our case, the test set has 2000 rows and 6 columns, therefore we get a 2000 x 6 matrix. Each row vector contains <strong>logits</strong> which represent the unnormalized output scores of the transformer model. We can interpret these scores as probabilities by passing them through a <strong>softmax function</strong>. The actual prediction is the class corresponding to the index with the largest logit (or probability).</p>
+</li>
+<li><p><code>label_ids</code> contains the ground truth labels.</p>
+</li>
+<li><p><code>metrics</code> contains the metrics. For the moment we have only the loss.</p>
+</li>
 </ul>
 
 </div>
@@ -1943,7 +1962,6 @@ To get the index of the largest logit/probability (i.e. the actual prediction) w
 <span class="kn">from</span> <span class="nn">torch.nn.functional</span> <span class="kn">import</span> <span class="n">softmax</span>
 
 <span class="n">logits</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">predictions</span>
-<span class="c1"># targets = predictions.label_ids</span>
 <span class="n">probs</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">logits</span><span class="p">),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
@@ -2032,9 +2050,12 @@ To get the index of the largest logit/probability (i.e. the actual prediction) w
 <p>This is the end of this section.</p>
 <p>In the next one we will explore few different way to improve the current pipeline, including how to:</p>
 <ul>
-<li>pass more meaningful metrics to the training loop</li>
-<li>save the model checkpoint locally or on a cloud storage</li>
-<li>evaluate the model through more elegant visualizations</li>
+<li><p>pass more meaningful metrics to the training loop.</p>
+</li>
+<li><p>evaluate the model through more elegant visualizations.</p>
+</li>
+<li><p>save the model checkpoint locally or on a cloud storage.</p>
+</li>
 </ul>
 
 </div>
@@ -2051,7 +2072,7 @@ To get the index of the largest logit/probability (i.e. the actual prediction) w
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Adding-metrics">Adding metrics<a class="anchor-link" href="#Adding-metrics"> </a></h4><p>Now that we know how to evaluate our model and generate predictions, first nice addition would be the possibility to look at more meaningful metrics. 
+<h4 id="&#129680;-Adding-the-metrics-&#129680;">&#129680; Adding the metrics &#129680;<a class="anchor-link" href="#&#129680;-Adding-the-metrics-&#129680;"> </a></h4><p>Now that we know how to evaluate our model and generate predictions, a nice addition would be the possibility to look at more meaningful metrics. 
 To do that first we need to import the <code>load_metric</code> function from the <code>datasets</code> library and pass the name of the metric we want as an argument. Each metric takes as input the predicted and the ground truth values plus any additional metric-specific argument.
 Since we are dealing with a classification task,  we add accuracy, precision, recall and F1 score to the training procedure.</p>
 <p>We can  check the full list of metrics available using the <code>list_metrics</code> function from the <code>datasets</code> library.</p>
@@ -2219,10 +2240,14 @@ Since we are dealing with a classification task,  we add accuracy, precision, re
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>At a first glance, it seems our <code>compute_metrics_fn</code> works as expected. Let's run again the training loop with just a few changes:</p>
 <ul>
-<li>train for 3 epochs, rather than just 1</li>
-<li>pass larger batches to the model by setting the <code>per_device_train_batch_size</code> argument</li>
-<li>keep the best model by setting <code>load_best_model_at_end=True</code></li>
-<li>compute the metrics by passing the function we have just created to the training loop through the <code>compute_metrics</code> argument.</li>
+<li><p>train for 3 epochs, rather than just a single one.</p>
+</li>
+<li><p>pass larger batches to the model by setting the <code>per_device_train_batch_size</code> argument.</p>
+</li>
+<li><p>keep the best model by setting <code>load_best_model_at_end=True</code>.</p>
+</li>
+<li><p>compute the metrics by passing the function we have just created to the training loop through the <code>compute_metrics</code> argument.</p>
+</li>
 </ul>
 
 </div>
@@ -2504,7 +2529,13 @@ Training completed. Do not forget to share your model on huggingface.co/models =
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>WOW!🥂 After training for just 3 epochs we reach almost 95% in accuracy on the test set and the other metrics look good.</p>
-<p>Let’s define a function to automatically convert logits into label IDs.Then we import the <code>classification_report</code> and <code>ConfusionMatrixDisplay</code> functions from <code>sklearn.metrics</code> and pass the ground truth and predicted labels to those two functions. The <code>classification_report</code> function generates a detailed report providing additional information for each label, whereas the <code>ConfusionMatrixDisplay</code> function returns a neat confusion matrix showing where our sentence-classification model performs well and where it falls short.
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="&#129680;-Adding-the-classification-report-and-confusion-matrix-&#129680;">&#129680; Adding the classification report and confusion matrix &#129680;<a class="anchor-link" href="#&#129680;-Adding-the-classification-report-and-confusion-matrix-&#129680;"> </a></h4><p>Let’s define a function to automatically convert logits into label IDs. Then we import the <code>classification_report</code> and <code>ConfusionMatrixDisplay</code> functions from <code>sklearn.metrics</code> and pass the ground truth and predicted labels to those two functions. The <code>classification_report</code> function generates a detailed report providing additional information for each label, whereas the <code>ConfusionMatrixDisplay</code> function returns a neat confusion matrix showing where our sentence-classification model performs well and where it falls short.
 For instance, by looking at the numbers in the confusion matrix, it is apparent that the model sometimes mixes up joy and love  and misinterprets fear as surprise.</p>
 
 </div>
@@ -2658,10 +2689,18 @@ weighted avg       0.93      0.93      0.93      2000
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Saving-model-checkpoint">Saving model checkpoint<a class="anchor-link" href="#Saving-model-checkpoint"> </a></h4><p>This few bits of code show how to save a model checkpoint locally or on the cloud:</p>
+<h4 id="&#129680;-Saving-the-model-checkpoint-&#129680;">&#129680; Saving the model checkpoint &#129680;<a class="anchor-link" href="#&#129680;-Saving-the-model-checkpoint-&#129680;"> </a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This few bits of code show how to save a model checkpoint locally or on the cloud:</p>
 <ul>
-<li>we zip the checkpoint folder we want to save using <code>shutil.make_archive</code>. The first argument is the name of the file to create, the second is the format and the third is the input directory.</li>
-<li>we use <code>shutil.copy</code> to copy the zip folder to another location. In this example, we copy the checkpoint on Google Drive.</li>
+<li><p>we zip the checkpoint folder we want to save using <code>shutil.make_archive</code>. The first argument is the name of the file to create, the second is the format and the third is the input directory.</p>
+</li>
+<li><p>we use <code>shutil.copy</code> to copy the zip folder to another location. In this example, we copy the checkpoint on Google Drive.</p>
+</li>
 </ul>
 <p>‼️ Make sure to adjust the <code>base_name</code>, <code>root_dir</code>, <code>src</code> and <code>dst</code> parameters accordingly to the environment used. ‼️</p>
 
@@ -2723,6 +2762,14 @@ weighted avg       0.93      0.93      0.93      2000
 </div>
     
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This part concludes the blog post.</p>
+<p>Thanks for your time and attention! 🙏</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a name="resources"></a></p>
