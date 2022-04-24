@@ -154,9 +154,17 @@ window.onload = wrap_img;
 <p><a name="overview"></a></p>
 <h2 id="&#10024;-A-quick-review-of-natural-language-processing-(NLP)-&#10024;">&#10024; A quick review of natural language processing (NLP) &#10024;<a class="anchor-link" href="#&#10024;-A-quick-review-of-natural-language-processing-(NLP)-&#10024;"> </a></h2><blockquote><p><a href="#start">Table of contents</a></p>
 </blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Natural language processing (NLP) is the branch of AI that studies how computers can process human language in the form of text or voice and make sense of those words.</p>
-<p>NLP techniques can be used to solve a large variety of tasks such as:- sentiment analysis.</p>
+<p>NLP techniques can be used to solve a large variety of tasks such as:</p>
 <ul>
+<li><p>sentiment analysis.</p>
+</li>
 <li><p>machine translation.</p>
 </li>
 <li><p>natural language generation.</p>
@@ -792,8 +800,10 @@ As we have just mentioned, we will use a pre-trained BERT model called <code>ber
 </li>
 <li><p><code>padding_side</code> and <code>truncation_side</code> are two important concepts that define how the tokenizer will  handle inputs of different length when they are processed in batches:</p>
 <ul>
-<li><strong>Padding</strong> is the process of adding special tokens, called padding tokens, to sequences with fewer tokens.</li>
-<li><strong>Truncation</strong> is the process of reducing the length of the sequences that are too long.</li>
+<li><p><strong>Padding</strong> is the process of adding special tokens, called padding tokens, to sequences with fewer tokens.</p>
+</li>
+<li><p><strong>Truncation</strong> is the process of reducing the length of the sequences that are too long.</p>
+</li>
 </ul>
 <p>To learn more about these two concepts check out the <a href="https://huggingface.co/docs/transformers/master/en/preprocessing#pad">documentation</a>.</p>
 </li>
@@ -850,16 +860,17 @@ What we get as output is a dictionary containing three key-value pairs:</p>
 <li><p><code>input_ids</code> contains the token IDs. They are the main input data of the transformer model.</p>
 </li>
 <li><p><code>attention_mask</code> defines which other parts of the input sentence the attention layers of the transformer model can attend to when processing a certain position. It's a list of booleans where 1 means the attention layers can pay attention to that token. There are two common situations where we want the attention layers to ignore certain token IDs:</p>
-<ol>
+<ul>
 <li><p>We are performing a generative task, such as text generation, and we don't want our model to peek at the tokens it hasn't generated yet. It would be like cheating!</p>
 </li>
 <li><p>We are padding the input text and, since padding tokens don’t have any semantic meaning, we don’t want our model to make predictions based on those tokens.</p>
 </li>
-</ol>
+</ul>
 <p>In our case we get only 1s because we are not trying to generate text and, at least for now, we haven't padded our sentences.</p>
 </li>
-<li>Our BERT model can potentially digest a pair of sentences. We can find this information in the <a href="https://huggingface.co/bert-base-uncased#model-description">model description</a>.
-<code>token_type_ids</code> tells the model if a certain token belongs to the first or second sentence. 0 indicates the first sentence and 1 the second one. Since in our example we are not dealing with pairs, we just get lists of 0s.</li>
+<li><p>Our BERT model can potentially digest a pair of sentences. We can find this information in the <a href="https://huggingface.co/bert-base-uncased#model-description">model description</a>.
+<code>token_type_ids</code> tells the model if a certain token belongs to the first or second sentence. 0 indicates the first sentence and 1 the second one. Since in our example we are not dealing with pairs, we just get lists of 0s.</p>
+</li>
 </ul>
 
 </div>
