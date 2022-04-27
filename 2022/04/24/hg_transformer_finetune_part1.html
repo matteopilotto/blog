@@ -79,7 +79,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      37 min read
+      38 min read
     
 </span></p>
 
@@ -143,7 +143,9 @@ window.onload = wrap_img;
 <br /><br /></li>
 <li>In <a href="#improve">Improving the pipeline</a> we will explore different ways to enhance the training loop.
 <br /><br /></li>
-<li><a href="#resources">Additional resources</a> contains extra materials to delve into transformers.</li>
+<li><a href="#resources">Additional resources</a> contains extra materials to delve into transformers.
+<br /><br /></li>
+<li><a href="#acknowledgement">Acknowledgement</a></li>
 </ol>
 
 </div>
@@ -2774,8 +2776,8 @@ weighted avg       0.93      0.93      0.93      2000
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="s1">&#39;/content/drive/MyDrive/transformers/apr24_last_checkpoint.zip&#39;</span><span class="p">,</span>
-            <span class="n">dst</span><span class="o">=</span><span class="s1">&#39;/content/last_checkpoint.zip&#39;</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="s1">&#39;/content/last_checkpoint.zip&#39;</span><span class="p">,</span>
+            <span class="n">dst</span><span class="o">=</span><span class="s1">&#39;/content/drive/MyDrive/transformers/apr24_last_checkpoint.zip&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -2799,13 +2801,25 @@ weighted avg       0.93      0.93      0.93      2000
 <h2 id="&#128218;-Additional-resources">&#128218; Additional resources<a class="anchor-link" href="#&#128218;-Additional-resources"> </a></h2><blockquote><p><a href="#start">Table of contents</a></p>
 </blockquote>
 <ol>
-<li>The <a href="https://huggingface.co/course/chapter1/1">Hugging Face course</a> teaches additional topics we didn't cover in this notebook.<br /><br /></li>
+<li>The <a href="https://events-hf-fastai.wandb.ai/agenda">Weights &amp; Biases study group</a> is an amazing resource to get started with Hugging Face.<br /><br /></li>
+<li>The <a href="https://huggingface.co/course/chapter1/1">Hugging Face course</a> teaches additional topics we didn't cover in this notebook.
+<br /><br /></li>
 <li>If you prefer books, <a href="https://transformersbook.com/">Natural Language Processing with Transformers</a> by  Lewis Tunstall, Leandro von Werra, and Thomas Wolf is the perfect resource to learn more about NLP and transformers.
 <br /><br /></li>
 <li><a href="https://jalammar.github.io/illustrated-transformer/">The Illustrated Transformer</a> and <a href="https://jalammar.github.io/illustrated-bert/">The Illustrated BERT</a> by Jay Alammar are two great blog posts full of amazing visualizations to further explore transformers.
 <br /><br /></li>
 <li><a href="http://nlp.seas.harvard.edu/2018/04/03/attention.html">The Annotated Transformer</a> by Harvard NLP goes through the original paper "Attention is All You Need" showing how to implement the transformer architecture in PyTorch line by line.</li>
 </ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a name="acknowledgement"></a></p>
+<h2 id="&#128218;-Acknowledgements">&#128218; Acknowledgements<a class="anchor-link" href="#&#128218;-Acknowledgements"> </a></h2><blockquote><p><a href="#start">Table of contents</a></p>
+</blockquote>
+<p>A big shout out to <a href="https://twitter.com/bhutanisanyam1">Sanyam Bhutani</a> and <a href="https://twitter.com/waydegilliam">Wayde Gilliam</a>. The passion and enthusiasm they put in hostingthe study group is what motivated me to write this blog post in the first place. Also big thanks to the <a href="https://twitter.com/huggingface">Hugging Face community</a> for putting together the Hugging Face Course and <a href="https://twitter.com/weights_biases">Weights &amp; Biases</a> for organizating the study group.</p>
 
 </div>
 </div>
