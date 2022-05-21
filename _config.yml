@@ -6,7 +6,7 @@
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
 # https://learnxinyminutes.com/docs/yaml/
 
-title: Matteo's Blog
+title: Matteo's Journal
 description: A minimalistic blog about Machine Learning topics.
 github_username: matteopilotto
 # you can comment the below line out if your repo name is not different than your baseurl
